@@ -33,9 +33,9 @@ export default function ProductForm({
 
     //prive validation
     if (!price || isNaN(price) || price <= 0)
-      newErrors.price = "Product price is required.";
+      newErrors.price = "Product price is required";
     else if (!/^[0-9\s]+$/.test(price))
-      newErrors.price = "Price should contain only numbers";
+      newErrors.price = "Price should contain only positive numbers";
 
     //category validation
     if (!category.trim()) newErrors.category = "Category is required.";
@@ -44,7 +44,7 @@ export default function ProductForm({
 
     // description validation
     if (description == "") {
-      newErrors.description == null;
+      newErrors.description = null;
     } else if (!/^[A-Za-z0-9\s]+$/.test(description)) {
       newErrors.description =
         "Description should only contain letters and numbers";
@@ -55,6 +55,7 @@ export default function ProductForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
     if (!validateForm()) return; // Stop if form is invalid
 
     const product = {
@@ -64,15 +65,23 @@ export default function ProductForm({
       description,
       available,
     };
+    try {
+      if (isEditing) {
+        await updateProduct(productData.id, product);
+      } else {
+        await addProduct(product);
+      }
 
-    if (isEditing) {
-      await updateProduct(productData.id, product);
-    } else {
-      await addProduct(product);
+      refreshProducts();
+      onClose();
+    } catch (error) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        backend: error.response
+          ? error.response.data.message
+          : "An error occurred. Please try again.",
+      }));
     }
-
-    refreshProducts();
-    onClose();
   };
 
   return (
@@ -87,6 +96,9 @@ export default function ProductForm({
         <h2 className="text-black font-c text-2xl font-bold text-center mb-4">
           {isEditing ? "Edit Product" : "Add Product"}
         </h2>
+        {errors.backend && (
+          <p className="text-red-500 text-sm mb-4">{errors.backend}</p>
+        )}
         <form onSubmit={handleSubmit}>
           <input
             type="text"
