@@ -32,10 +32,8 @@ export default function ProductList() {
     setShowDeleteModal(false);
     setProductToDelete(null);
   };
-  const refreshProducts = () => {
-    getProducts(); // Refresh product list
-  };
-  const applyFilters = () => {
+
+  const handleApplyFilters = () => {
     let filtered = products;
 
     // Filter by price range
@@ -63,7 +61,7 @@ export default function ProductList() {
 
     setFilteredProducts(filtered);
   };
-  const resetFilters = () => {
+  const handleResetFilters = () => {
     setMinPrice("");
     setMaxPrice("");
     setCategoryFilter("");
@@ -130,13 +128,13 @@ export default function ProductList() {
           </label>
         </div>
         <button
-          onClick={applyFilters}
+          onClick={handleApplyFilters}
           className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
         >
           Apply Filters
         </button>
         <button
-          onClick={resetFilters}
+          onClick={handleResetFilters}
           className="mt-4 bg-gray-500 text-white px-4 ml-5 py-2 rounded hover:bg-gray-600 transition"
         >
           reset Filters
@@ -198,7 +196,7 @@ export default function ProductList() {
         <DeleteConfirmationModal
           productToDelete={productToDelete} // Pass the product ID to delete
           onClose={handleCloseDeleteModal}
-          onDelete={refreshProducts} // Pass the refresh function
+          onDelete={getProducts} // Pass the refresh function
         />
       )}
     </div>

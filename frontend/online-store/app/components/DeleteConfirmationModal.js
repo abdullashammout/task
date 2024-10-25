@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { deleteProduct } from "../services/products";
 
 export default function DeleteConfirmationModal({
   productToDelete,

@@ -12,7 +12,6 @@ export default function ProductForm({
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [available, setAvailable] = useState(true);
-
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -24,6 +23,7 @@ export default function ProductForm({
       setAvailable(productData.available);
     }
   }, [isEditing, productData]);
+
   const validateForm = () => {
     const newErrors = {};
     //name validation
@@ -56,6 +56,7 @@ export default function ProductForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return; // Stop if form is invalid
+
     const product = {
       name,
       price: parseFloat(price),
