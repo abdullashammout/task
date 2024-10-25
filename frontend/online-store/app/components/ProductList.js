@@ -8,7 +8,7 @@ export default function ProductList() {
   const [products, setProducts] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // New state for delete modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -147,42 +147,46 @@ export default function ProductList() {
         Add Product
       </button>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            className="border border-gray-300 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
-          >
-            <div className="p-4 bg-white">
-              <h2 className="text-xl font-bold text-gray-800 ">
-                {product.name.toUpperCase()}
-              </h2>
-              <p className="item-props">Category: {product.category}</p>
-              <p className="item-props">Description: {product.description}</p>
-              <p className="item-props">
-                Available: {product.available ? "yes" : "no"}
-              </p>
-            </div>
-            <div className="bg-Light-Blue p-4 flex justify-between items-center">
-              <p className="item-props text-green-900">
-                Price: ${product.price.toFixed(2)}
-              </p>
-              <div className="flex space-x-2">
-                <button
-                  onClick={() => handleEdit(product)}
-                  className="button-edit  text-white px-4 py-2 rounded button-edit:hover"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(product.id)} // Call the delete function
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                >
-                  Delete
-                </button>
+        {filteredProducts.length === 0 ? (
+          <p className=" text-black mt-1">No products yet.</p>
+        ) : (
+          filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="border border-gray-300 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
+            >
+              <div className="p-4 bg-white">
+                <h2 className="text-xl font-bold text-gray-800 ">
+                  {product.name.toUpperCase()}
+                </h2>
+                <p className="item-props">Category: {product.category}</p>
+                <p className="item-props">Description: {product.description}</p>
+                <p className="item-props">
+                  Available: {product.available ? "yes" : "no"}
+                </p>
+              </div>
+              <div className="bg-Light-Blue p-4 flex justify-between items-center">
+                <p className="item-props ">
+                  Price: ${product.price.toFixed(2)}
+                </p>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => handleEdit(product)}
+                    className="button-edit  text-white px-4 py-2 rounded button-edit:hover"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product.id)} // Call the delete function
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
       {isPopupOpen && (
         <ProductForm
