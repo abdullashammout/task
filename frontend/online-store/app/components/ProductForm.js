@@ -8,7 +8,7 @@ export default function ProductForm({
   refreshProducts,
 }) {
   const [name, setName] = useState("");
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [available, setAvailable] = useState(true);
@@ -66,6 +66,8 @@ export default function ProductForm({
           />
           <input
             type="number"
+            inputMode="numeric"
+            min={0}
             placeholder="Price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
